@@ -23,7 +23,6 @@ public class GYROmain extends ApplicationAdapter {
     @Override
     public void create() {
         bmGyroV = new BitmapFont(Gdx.files.internal("luke.fnt"));
-        bmGyroV.setColor(Color.WHITE);
         bmGyroV.getData().setScale(5, 5);
         ocCam = new OrthographicCamera();
         ocCam.setToOrtho(false);
@@ -39,6 +38,12 @@ public class GYROmain extends ApplicationAdapter {
         fGyroY = Gdx.input.getAccelerometerY();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (fGyroY < 0) {
+            bmGyroV.setColor(Color.RED);
+        }
+        if (fGyroY > 0) {
+            bmGyroV.setColor(Color.BLUE);
+        }
         bChar.setProjectionMatrix(ocCam.combined);
         bChar.begin();
         if (picID == 1) {
@@ -46,7 +51,7 @@ public class GYROmain extends ApplicationAdapter {
         } else {
             character.draw2(bChar);
         }
-        bmGyroV.draw(bChar, Float.toString(fGyroY), 1000, 1300);
+        bmGyroV.draw(bChar, Float.toString(fGyroY), 100, 1400);
         bChar.end();
 
         recBDown = new Rectangle(0, 0, Gdx.graphics.getWidth(), 10);
